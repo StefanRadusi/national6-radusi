@@ -32,7 +32,7 @@ setInterval(function () {
   if (hours === 24) {
     hours = 0;
   }
-}, 1);
+}, 1000);
 
 function renderDigits(nr, pList) {
   const stringDigits = nr + "";

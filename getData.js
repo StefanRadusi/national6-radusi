@@ -1,4 +1,5 @@
 console.log("JavaScript - AJAX");
+console.log("CRUD Operation - Read");
 // The scope of this lesson is to fetch some data from a server and use it to dynamically render data to the user
 // We show the data to the user by creating new html elements and ad them to the existing html objects
 
@@ -7,7 +8,9 @@ console.log("JavaScript - AJAX");
 const articleListHtml = document.querySelector(".article-list");
 
 // we will get/fetch the data when user click on a button
-document.getElementById("get-data").addEventListener("click", function () {
+document.getElementById("get-data").addEventListener("click", getData);
+
+function getData() {
   // "fetch" is a JavaScript function that tells the browser the make a request the specified address in the argument
   fetch("https://simple-json-server-scit.herokuapp.com/posts")
     // "this .then" is responsible for linking a callback function to the event trigger by the browser when the server responds back
@@ -15,7 +18,7 @@ document.getElementById("get-data").addEventListener("click", function () {
     // "this .then" is responsible for linking a callback function to the event trigger by the parser of the body of the response
     // we need to parse the response so we can transform it from a string in form of a JSON to an actual JavaScript value, which in this case is a list of objects
     .then(useJSONResponse);
-});
+}
 
 // because "handleFetchResponse" is used as a callback function in the first then of "fetch" the parameter will be the response from the servers
 function handleFetchResponse(response) {

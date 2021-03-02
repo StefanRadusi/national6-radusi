@@ -48,6 +48,10 @@ setTimeout(function () {
 
 // "setInterval" has the functionality of calling the callback-function at a set interval
 // for this case it will be printed to the console "Ping" every 1000 milliseconds or 1 second
-setInterval(function () {
+const pingReference = setInterval(function () {
   console.log("ping");
 }, 1000);
+
+document.getElementById("stop-ping").addEventListener("click", function () {
+  clearInterval(pingReference);
+});

@@ -68,4 +68,15 @@ function renderArticle(articleData) {
   // we use the "articleData" as data source
   articleTitle.innerText = articleData.title;
   articleContent.innerText = articleData.content;
+
+  removeArticle.addEventListener("click", function () {
+    console.log("remove element");
+    article.remove();
+    fetch(
+      `https://simple-json-server-scit.herokuapp.com/posts/${articleData.id}`,
+      {
+        method: "DELETE",
+      }
+    ).then(getData);
+  });
 }

@@ -1,5 +1,5 @@
 console.log("JavaScript - AJAX");
-console.log("Create Read Update Delete  - CRUD");
+console.log("Create Read Update Delete - CRUD");
 console.log("CRUD Operation - Create step");
 
 // in this course we attempt to add new data on the server using its API

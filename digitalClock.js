@@ -12,27 +12,52 @@ const minutesParagraphs = document.querySelectorAll(".minutes p");
 let hours = 0;
 const hoursParagraphs = document.querySelectorAll(".hours p");
 
-setInterval(function () {
+let interval;
+document.getElementById("start").addEventListener("click", () => {
+  if (!interval) {
+    interval = setInterval(function () {
+      renderDigits(seconds, secondsParagraphs);
+      renderDigits(minutes, minutesParagraphs);
+      renderDigits(hours, hoursParagraphs);
+
+      seconds++;
+
+      if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+      }
+
+      if (minutes === 60) {
+        minutes = 0;
+        hours++;
+      }
+
+      if (hours === 24) {
+        hours = 0;
+      }
+    }, 100);
+  }
+});
+
+document.getElementById("stop").addEventListener("click", () => {
+  clearInterval(interval);
+});
+
+document.getElementById("reset").addEventListener("click", () => {
+  clearInterval(interval);
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
   renderDigits(seconds, secondsParagraphs);
   renderDigits(minutes, minutesParagraphs);
   renderDigits(hours, hoursParagraphs);
+});
 
-  seconds++;
-
-  if (seconds === 60) {
-    seconds = 0;
-    minutes++;
-  }
-
-  if (minutes === 60) {
-    minutes = 0;
-    hours++;
-  }
-
-  if (hours === 24) {
-    hours = 0;
-  }
-}, 1000);
+document.getElementById("save").addEventListener("click", () => {
+  const clock = document.querySelector(".digital-clock");
+  const clockCopy = clock.cloneNode(true);
+  document.body.appendChild(clockCopy);
+});
 
 function renderDigits(nr, pList) {
   const stringDigits = nr + "";

@@ -7,7 +7,6 @@ class GameObject {
     this.x = 0;
     this.y = 0;
     this.generateRef();
-    // this.move(50, 225);
   }
 
   generateRef() {
@@ -25,6 +24,10 @@ class GameObject {
     this.x = x;
     this.y = y;
     this.ref.style.transform = `translate(${this.x}px, ${this.y}px)`;
+  }
+
+  removeRef() {
+    this.ref.remove();
   }
 }
 
@@ -56,6 +59,35 @@ class Obstacle extends GameObject {
   }
 }
 
+class ObstacleFactory {
+  constructor() {
+    this.obstacles = [];
+  }
+
+  createObstacle() {
+    const obstacle = new Obstacle();
+    obstacle.move(1060, Math.floor(Math.random() * 450));
+    this.obstacles.push(obstacle);
+  }
+
+  destroyObstacles() {
+    this.obstacles = this.obstacles.filter((obstacle) => {
+      if (obstacle.x < -50) {
+        obstacle.removeRef();
+        return false;
+      }
+
+      return true;
+    });
+  }
+
+  moveObstacles() {
+    for (const obstacle of this.obstacles) {
+      obstacle.moveLeft();
+    }
+  }
+}
+
 /// --- User  input
 
 let keyUpPress = false;
@@ -82,14 +114,45 @@ document.addEventListener("keyup", (event) => {
 
 /// --- User  input
 
+// -- Collision Detection
+
+function collisionDetection(player, obstacles) {
+  for (const obstacle of obstacles) {
+    console.log(player.x, player.x + player.width, obstacle.x);
+
+    if (
+      player.x >= obstacle.x - obstacle.width &&
+      player.x + player.width >= obstacle.x &&
+      player.y <= obstacle.y + obstacle.height &&
+      player.y + player.height >= obstacle.y
+    )
+      return true;
+  }
+
+  return false;
+}
+
 const player = new Player();
-const obstacle = new Obstacle();
+const obstacleFactory = new ObstacleFactory();
 
 // Game Loop
-setInterval(() => {
+let count = 0;
+
+let gameLoop = setInterval(() => {
   console.log(keyUpPress);
 
   if (keyUpPress) player.moveUp();
   if (keyDownPress) player.moveDown();
-  obstacle.moveLeft();
-}, 250);
+
+  if (count % 10 === 0) obstacleFactory.createObstacle();
+
+  obstacleFactory.moveObstacles();
+  if (collisionDetection(player, obstacleFactory.obstacles)) {
+    clearInterval(gameLoop);
+    alert("You hit an obstacle");
+    window.location = "/";
+  }
+
+  obstacleFactory.destroyObstacles();
+  count++;
+}, 50);

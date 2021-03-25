@@ -39,11 +39,11 @@ class Player extends GameObject {
   }
 
   moveUp() {
-    this.move(this.x, this.y - 25);
+    if (this.y - 25 >= 0) this.move(this.x, this.y - 25);
   }
 
   moveDown() {
-    this.move(this.x, this.y + 25);
+    if (this.y + 25 <= 500 - this.height) this.move(this.x, this.y + 25);
   }
 }
 
@@ -139,9 +139,8 @@ function collisionDetection(player, obstacles) {
 const player = new Player();
 const obstacleFactory = new ObstacleFactory();
 
-// Game Loop
 let count = 0;
-
+// Game Loop
 let gameLoop = setInterval(() => {
   console.log(keyUpPress);
 

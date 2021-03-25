@@ -121,10 +121,10 @@ function collisionDetection(player, obstacles) {
     console.log(player.x, player.x + player.width, obstacle.x);
 
     if (
-      player.x >= obstacle.x - obstacle.width &&
-      player.x + player.width >= obstacle.x &&
-      player.y <= obstacle.y + obstacle.height &&
-      player.y + player.height >= obstacle.y
+      player.x <= obstacle.x &&
+      obstacle.x <= player.x + player.width &&
+      player.y <= obstacle.y &&
+      obstacle.y <= player.y + player.height
     )
       return true;
   }

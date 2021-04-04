@@ -8,8 +8,12 @@ document.getElementById("login").addEventListener("click", () => {
   const password = inputPassword.value;
 
   if (name && password === PASSWORD_CHECK) {
+    // for every new key in the cookie we need to use "document.cookie"
+    // we can't set more then a cookie at a time
     document.cookie = `name=${name}`;
     document.cookie = `password=${password}`;
+
+    // after successful login we can redirect the user to the home page
     window.location = "/";
   }
 });

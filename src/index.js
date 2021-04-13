@@ -1,7 +1,7 @@
+import { getToDoData, updateUserData, createUserData } from "./utils/api";
+
 console.log("To Do App");
 
-const GET_DATA_URL =
-  "https://simple-json-server-scit.herokuapp.com/todo/sradusi";
 const ADD_NEW_USER_URL = "https://simple-json-server-scit.herokuapp.com/todo";
 const UPDATE_TO_USER_URL =
   "https://simple-json-server-scit.herokuapp.com/todo/sradusi";
@@ -11,16 +11,14 @@ const inputTask = document.getElementById("task-name");
 let todo = [];
 let userExist = false;
 
-fetch(GET_DATA_URL)
-  .then((r) => r.json())
-  .then((json) => {
-    console.log(json);
+getToDoData((json) => {
+  console.log(json);
 
-    if (json.id === "sradusi") {
-      todo = json.todo;
-      userExist = true;
-    }
-  });
+  if (json.id === "sradusi") {
+    todo = json.todo;
+    userExist = true;
+  }
+});
 
 document.getElementById("add-task-button").addEventListener("click", () => {
   if (userExist) {
@@ -33,40 +31,13 @@ document.getElementById("add-task-button").addEventListener("click", () => {
         checked: false,
         item: itemValue,
       });
-      const payload = {
-        id: "sradusi",
-        todo: todo,
-      };
-
-      fetch(UPDATE_TO_USER_URL, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      updateUserData(todo, () => {});
     }
   } else {
     // add user to server
     const itemValue = inputTask.value;
     if (itemValue) {
-      const payload = {
-        id: "sradusi",
-        todo: [
-          {
-            checked: false,
-            item: itemValue,
-          },
-        ],
-      };
-
-      fetch(ADD_NEW_USER_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      createUserData(itemValue, () => {});
     }
   }
 });

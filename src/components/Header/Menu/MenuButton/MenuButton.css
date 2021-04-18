@@ -1,0 +1,12 @@
+.app-menu-button {
+  height: 100%;
+  background: white;
+  border-radius: 50%;
+  border-bottom-left-radius: unset;
+  padding: 0px 8px;
+}
+
+.app-menu-button > img {
+  height: 60%;
+  margin-top: 11px;
+}

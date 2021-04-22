@@ -1,7 +1,7 @@
 import "./ToDoItem.css";
 
 export function ToDoItem(props) {
-  console.log(props);
+  // console.log(props);
 
   return (
     <div className="to-do-item">
@@ -10,7 +10,7 @@ export function ToDoItem(props) {
       <img
         src="https://previews.123rf.com/images/iconscart/iconscart1903/iconscart190300018/118811393-trash-icon.jpg"
         alt="trash"
-        onClick={() => props.removeItem(props.label)}
+        onClick={(event) => props.removeItem(props.label)}
       />
     </div>
   );

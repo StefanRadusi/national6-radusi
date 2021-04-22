@@ -19,6 +19,7 @@ const mockToDoListData = [
 export class ToDoList extends Component {
   state = {
     toDoList: mockToDoListData,
+    inputValue: "",
   };
 
   removeItem = (itemText) => {
@@ -29,16 +30,41 @@ export class ToDoList extends Component {
     });
   };
 
+  handleInputChange = (event) => {
+    this.setState({ inputValue: event.target.value });
+  };
+
+  handleAddItem = () => {
+    this.setState({
+      toDoList: [
+        { checked: false, item: this.state.inputValue },
+        ...this.state.toDoList,
+      ],
+      inputValue: "",
+    });
+  };
+
   render() {
+    console.log(this.state);
+
     return (
       <div className="to-do-list">
-        {this.state.toDoList.map((itemData) => (
+        {this.state.toDoList.map((itemData, index) => (
           <ToDoItem
+            key={index + itemData.item}
             checkValue={itemData.checked}
             label={itemData.item}
             removeItem={this.removeItem}
           />
         ))}
+
+        <div className="add-item">
+          <input
+            value={this.state.inputValue}
+            onChange={this.handleInputChange}
+          />
+          <button onClick={this.handleAddItem}>+</button>
+        </div>
       </div>
     );
   }

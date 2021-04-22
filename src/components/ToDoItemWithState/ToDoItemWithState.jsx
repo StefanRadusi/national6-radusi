@@ -7,7 +7,7 @@ export class ToDoItemWithState extends Component {
 
   handleIncreaseClick = () => {
     console.log("click on item");
-    this.setState({ nrOfClick: 1 });
+    this.setState({ nrOfClick: this.state.nrOfClick + 1 });
   };
 
   render() {

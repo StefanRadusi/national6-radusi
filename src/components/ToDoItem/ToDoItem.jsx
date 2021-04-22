@@ -10,6 +10,7 @@ export function ToDoItem(props) {
       <img
         src="https://previews.123rf.com/images/iconscart/iconscart1903/iconscart190300018/118811393-trash-icon.jpg"
         alt="trash"
+        onClick={() => props.removeItem(props.label)}
       />
     </div>
   );

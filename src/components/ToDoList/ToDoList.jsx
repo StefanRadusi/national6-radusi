@@ -21,6 +21,8 @@ const mockToDoListData = [
 // we can use the internal state of a component to write logic inside render method so that when the state changes our component changes its rendered component as well
 // a component has a state so that we can have functionality in our apps, without state every component would be static
 
+// more info on the state: https://reactjs.org/docs/state-and-lifecycle.html
+
 export class ToDoList extends Component {
   // here we declare the initial state
   // our state will hold information regarding the list of to-do items as well as the current value in the add new item input

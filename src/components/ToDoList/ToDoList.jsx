@@ -94,7 +94,7 @@ export class ToDoList extends Component {
   }
 
   handleInputChange = (event) => {
-    this.setState({ inputValue: event.target.value });
+    this.setState({ inputValue: event.target.value, isInvalid: false });
   };
 
   handleAddItem = () => {

@@ -23,10 +23,53 @@ export class ToDoList extends Component {
     // "setState" will trigger a call of the render method of this component
     // without setState the component would not update its rendered component and the user wouldn't see anything change in the webpage
     // when we call setState we pass as an argument and object that will be merged to the current state
+
+    const filteredToDoList = this.state.toDoList.filter(
+      (itemData) => itemData.item !== itemText
+    );
+
     this.setState({
-      toDoList: this.state.toDoList.filter(
-        (itemData) => itemData.item !== itemText
-      ),
+      toDoList: filteredToDoList,
+    });
+
+    const payload = {
+      id: "sradusi",
+      todo: filteredToDoList,
+    };
+
+    fetch("https://simple-json-server-scit.herokuapp.com/todo/sradusi", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  };
+
+  updateCheckStatus = (index, value) => {
+    console.log(index, value);
+
+    const newList = this.state.toDoList.map((item, itemIndex) => {
+      if (itemIndex === index) {
+        item.checked = value;
+      }
+
+      return item;
+    });
+
+    this.setState({ toDoList: newList });
+
+    const payload = {
+      id: "sradusi",
+      todo: newList,
+    };
+
+    fetch("https://simple-json-server-scit.herokuapp.com/todo/sradusi", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
   };
 
@@ -102,6 +145,8 @@ export class ToDoList extends Component {
             checkValue={itemData.checked}
             label={itemData.item}
             removeItem={this.removeItem}
+            itemIndex={index}
+            updateCheckStatus={this.updateCheckStatus}
           />
         ))}
 

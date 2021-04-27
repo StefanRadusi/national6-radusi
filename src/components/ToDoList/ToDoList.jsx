@@ -1,21 +1,6 @@
 import { Component } from "react";
 import { ToDoItem } from "../ToDoItem/ToDoItem";
 
-const mockToDoListData = [
-  {
-    checked: false,
-    item: "task1",
-  },
-  {
-    checked: true,
-    item: "task2",
-  },
-  {
-    checked: false,
-    item: "task3",
-  },
-];
-
 // "ToDoList" is a class component
 // we define class component when we need state, and the state can change during the lifetime of a component
 // we can use the internal state of a component to write logic inside render method so that when the state changes our component changes its rendered component as well
@@ -27,8 +12,9 @@ export class ToDoList extends Component {
   // here we declare the initial state
   // our state will hold information regarding the list of to-do items as well as the current value in the add new item input
   state = {
-    toDoList: mockToDoListData,
+    toDoList: [],
     inputValue: "",
+    shouldCreateUser: false,
   };
 
   // removeItem is passed down to ToDoItem component and from there is triggered
@@ -46,6 +32,17 @@ export class ToDoList extends Component {
 
   componentDidMount() {
     console.log("ToDoList has finished mounting");
+
+    fetch("https://simple-json-server-scit.herokuapp.com/todo/sradusi")
+      .then((r) => r.json())
+      .then((json) => {
+        console.log(json);
+        if (json.todo) {
+          this.setState({ toDoList: json.todo });
+        } else {
+          this.setState({ shouldCreateUser: true });
+        }
+      });
   }
 
   componentWillUnmount() {
@@ -64,6 +61,33 @@ export class ToDoList extends Component {
       ],
       inputValue: "",
     });
+
+    const payload = {
+      id: "sradusi",
+      todo: [
+        { checked: false, item: this.state.inputValue },
+        ...this.state.toDoList,
+      ],
+    };
+
+    if (this.state.shouldCreateUser) {
+      fetch("https://simple-json-server-scit.herokuapp.com/todo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      this.setState({ shouldCreateUser: false });
+    } else {
+      fetch("https://simple-json-server-scit.herokuapp.com/todo/sradusi", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    }
   };
 
   render() {

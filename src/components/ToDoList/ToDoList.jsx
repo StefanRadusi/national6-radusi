@@ -15,6 +15,7 @@ export class ToDoList extends Component {
     toDoList: [],
     inputValue: "",
     shouldCreateUser: false,
+    isInvalid: false,
   };
 
   // removeItem is passed down to ToDoItem component and from there is triggered
@@ -97,39 +98,44 @@ export class ToDoList extends Component {
   };
 
   handleAddItem = () => {
-    this.setState({
-      toDoList: [
-        { checked: false, item: this.state.inputValue },
-        ...this.state.toDoList,
-      ],
-      inputValue: "",
-    });
-
-    const payload = {
-      id: "sradusi",
-      todo: [
-        { checked: false, item: this.state.inputValue },
-        ...this.state.toDoList,
-      ],
-    };
-
-    if (this.state.shouldCreateUser) {
-      fetch("https://simple-json-server-scit.herokuapp.com/todo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      this.setState({ shouldCreateUser: false });
+    if (this.state.inputValue === "") {
+      this.setState({ isInvalid: true });
     } else {
-      fetch("https://simple-json-server-scit.herokuapp.com/todo/sradusi", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+      this.setState({
+        toDoList: [
+          { checked: false, item: this.state.inputValue },
+          ...this.state.toDoList,
+        ],
+        inputValue: "",
+        isInvalid: false,
       });
+
+      const payload = {
+        id: "sradusi",
+        todo: [
+          { checked: false, item: this.state.inputValue },
+          ...this.state.toDoList,
+        ],
+      };
+
+      if (this.state.shouldCreateUser) {
+        fetch("https://simple-json-server-scit.herokuapp.com/todo", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        this.setState({ shouldCreateUser: false });
+      } else {
+        fetch("https://simple-json-server-scit.herokuapp.com/todo/sradusi", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+      }
     }
   };
 
@@ -154,6 +160,9 @@ export class ToDoList extends Component {
           <input
             value={this.state.inputValue}
             onChange={this.handleInputChange}
+            style={{
+              border: this.state.isInvalid ? "4px solid red" : undefined,
+            }}
           />
           <button onClick={this.handleAddItem}>+</button>
         </div>

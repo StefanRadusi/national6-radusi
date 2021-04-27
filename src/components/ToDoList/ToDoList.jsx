@@ -44,6 +44,14 @@ export class ToDoList extends Component {
     });
   };
 
+  componentDidMount() {
+    console.log("ToDoList has finished mounting");
+  }
+
+  componentWillUnmount() {
+    console.log("ToDoList will be unmounted");
+  }
+
   handleInputChange = (event) => {
     this.setState({ inputValue: event.target.value });
   };
@@ -59,6 +67,7 @@ export class ToDoList extends Component {
   };
 
   render() {
+    console.log("ToDoList - render");
     console.log(this.state);
 
     return (

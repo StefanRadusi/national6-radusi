@@ -75,7 +75,7 @@ export class ToDoList extends Component {
   };
 
   componentDidMount() {
-    console.log("ToDoList has finished mounting");
+    // console.log("ToDoList has finished mounting");
 
     fetch("https://simple-json-server-scit.herokuapp.com/todo/sradusi")
       .then((r) => r.json())
@@ -90,7 +90,7 @@ export class ToDoList extends Component {
   }
 
   componentWillUnmount() {
-    console.log("ToDoList will be unmounted");
+    // console.log("ToDoList will be unmounted");
   }
 
   handleInputChange = (event) => {

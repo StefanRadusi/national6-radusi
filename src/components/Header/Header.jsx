@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import "./Header.css";
 
+// Link component, if in Router context will trigger the routing mechanism by changing the url
+
 export function Header() {
   return (
     <div className="app-header">

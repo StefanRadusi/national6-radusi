@@ -115,6 +115,36 @@ class ObstacleFactory {
   }
 }
 
+class PlayerLives {
+  constructor() {
+    this.lives = 3;
+    this.container = this.generateLivesContainer();
+    this.updateLives();
+  }
+
+  generateLivesContainer = () => {
+    const container = document.createElement("div");
+    container.classList.add("player-lives");
+    document.body.prepend(container);
+    return container;
+  };
+
+  loseALife = () => {
+    this.lives--;
+    this.updateLives();
+  };
+
+  updateLives = () => {
+    this.container.innerHTML = "";
+
+    for (let i = 0; i < this.lives; i++) {
+      const img = document.createElement("img");
+      img.src = "heart.png";
+      this.container.appendChild(img);
+    }
+  };
+}
+
 /// --- User  input
 
 // "keyUpPress" and "keyDownPress" will be checked in the game loop
@@ -151,18 +181,18 @@ document.addEventListener("keyup", (event) => {
 function collisionDetection(player, obstacles) {
   for (const obstacle of obstacles) {
     console.log(player.x, obstacle.x);
+    console.log(player.width, obstacle.width);
+    console.log(player.height, obstacle.height);
 
     if (
-      (player.x <= obstacle.x &&
-        obstacle.x <= player.x + player.width &&
-        player.y <= obstacle.y &&
-        obstacle.y <= player.y + player.height) ||
-      (player.x <= obstacle.x + obstacle.width &&
-        obstacle.x + obstacle.width <= player.x + player.width &&
-        player.y <= obstacle.y + obstacle.height &&
-        obstacle.y + obstacle.height <= player.y + player.height)
-    )
+      player.x < obstacle.x + obstacle.width &&
+      player.x + player.width > obstacle.x &&
+      player.y < obstacle.y + obstacle.height &&
+      player.y + player.height > obstacle.y
+    ) {
+      // collision detected!
       return true;
+    }
   }
 
   return false;
@@ -171,6 +201,7 @@ function collisionDetection(player, obstacles) {
 // here is were we actually use the classes defined above
 const player = new Player();
 const obstacleFactory = new ObstacleFactory();
+const playerLives = new PlayerLives();
 
 // we need count for creating obstacles based on conditions
 let count = 0;
@@ -180,6 +211,7 @@ let count = 0;
 // the callback function of the interval will update our game every 50ms
 // our objects method will be called at the interval callback
 
+let goTrough = false;
 let gameLoop = setInterval(() => {
   console.log(keyUpPress);
 
@@ -195,9 +227,18 @@ let gameLoop = setInterval(() => {
 
   // if the player collide with any of the obstacles we need to close the game loops, alert the user and refresh the game
   if (collisionDetection(player, obstacleFactory.obstacles)) {
-    clearInterval(gameLoop);
-    alert("You hit an obstacle");
-    window.location = "/";
+    if (!goTrough) {
+      playerLives.loseALife();
+    }
+
+    if (playerLives.lives === 0) {
+      clearInterval(gameLoop);
+      alert("You lost");
+      window.location = "/";
+    }
+    goTrough = true;
+  } else {
+    goTrough = false;
   }
 
   // we check every game loop if we need to destroy objects outside of the game scene

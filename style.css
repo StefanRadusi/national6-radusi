@@ -7,6 +7,7 @@ body {
 
 body {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -17,4 +18,12 @@ body {
   border: 1px solid grey;
   position: relative;
   overflow: hidden;
+}
+
+.player-lives {
+  display: flex;
+}
+
+.player-lives img {
+  height: 40px;
 }

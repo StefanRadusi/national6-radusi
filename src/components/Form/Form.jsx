@@ -2,6 +2,7 @@ import { Component } from "react";
 import { FormField } from "../FormField/FormField";
 import { FormMessage } from "../FormMessage/FormMessage";
 import { SendButton } from "../SendButton/SendButton";
+
 import "./Form.css";
 
 export class Form extends Component {
@@ -11,7 +12,7 @@ export class Form extends Component {
     email: "",
     message: "",
     showMessage: false,
-    check: false,
+    checkValues: false,
   };
 
   setFieldValue = (fieldName, fieldValue) => {
@@ -19,7 +20,7 @@ export class Form extends Component {
   };
 
   handleOnSend = () => {
-    this.setState({ check: true });
+    this.setState({ checkValues: true });
 
     if (
       this.state.firstName &&
@@ -36,7 +37,7 @@ export class Form extends Component {
   };
 
   isFieldInvalid = (value) => {
-    if (this.state.check && !value) {
+    if (this.state.checkValues && !value) {
       return true;
     }
 

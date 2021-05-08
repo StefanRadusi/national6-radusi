@@ -1,0 +1,23 @@
+.form-field {
+  display: flex;
+  align-items: center;
+}
+
+.form-field:nth-child(4) {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.form-field-label {
+  width: 150px;
+}
+
+.form-field-input {
+  height: 25px;
+  width: 300px;
+}
+
+textarea.form-field-input {
+  height: 150px;
+}
